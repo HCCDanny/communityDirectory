@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "keywords": [],
-  "main": "src/index.jsx",
+  "main": "src/index.js",
   "dependencies": {
     "react": "latest",
     "react-dom": "latest",
@@ -12,9 +12,6 @@
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
     "@mui/joy": "5.0.0-beta.21"
-  },
-  "devDependencies": {
-    "typescript": "3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
