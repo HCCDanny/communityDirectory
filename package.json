@@ -12,17 +12,11 @@
     "@emotion/styled": "latest",
     "@mui/joy": "5.0.0-beta.21"
   },
-  "devDependencies": {
-    "typescript": "3.3.3"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": [
     "production": [
