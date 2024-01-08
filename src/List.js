@@ -1,69 +1,67 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Skeleton from "@mui/joy/Skeleton";
-import Card from "@mui/joy/Card";
-import Typography from "@mui/joy/Typography";
-import AspectRatio from "@mui/joy/AspectRatio";
-import DirectoryCard from "./components/DirectoryCard";
+import React, { useState } from "react";
+import useFetch from "./useFetch";
+import LoadingSkeleton from "./components/LoadingSkeleton";
+import Records from "./components/Records";
+import Filters from "./components/Filters";
+import usePagination from "./components/Pagination";
+import Grid from "@mui/joy/Grid";
+import Tabs from "@mui/joy/Tabs";
+import TabList from "@mui/joy/TabList";
+import Tab from "@mui/joy/Tab";
+import TabPanel from "@mui/joy/TabPanel";
+import Pagination from "react-mui-pagination";
+import Stack from "@mui/material/Stack";
 
-function AsyncFetchData() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const List = () => {
+  const { data, loading, error } = useFetch(
+    "https://raw.githubusercontent.com/HCCDanny/communityDirectory/main/public/data.json"
+  );
+  const serviceCategories = [...new Set(data?.map((s) => s.service))];
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
+  const currentRecords = usePagination(data, recordsPerPage);
+  const nPages = data?.length;
 
-  const fetchData = async () => {
-    try {
-      let response = await fetch("data.json", {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-      let result = await response.json();
-      setData(result);
-      setLoading(false);
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
+  const setPage = (e, p) => {
+    setCurrentPage(p);
+    currentRecords.jump(p);
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  if (loading) return;
-  <Card variant="outlined" sx={{ width: 343, display: "flex", gap: 2 }}>
-    <AspectRatio ratio="21/9">
-      <Skeleton variant="overlay">
-        <img
-          alt=""
-          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-        />
-      </Skeleton>
-    </AspectRatio>
-    <Typography>
-      <Skeleton>
-        Lorem ipsum is placeholder text commonly used in the graphic, print, and
-        publishing industries.
-      </Skeleton>
-    </Typography>
-  </Card>;
+  if (loading) return <LoadingSkeleton></LoadingSkeleton>;
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="container">
-      <ul className="list">
-        {data.map((item) => (
-          <>
-            <Link to={item.id} sx={(textDecoration = "none")}>
-              <DirectoryCard props={item}></DirectoryCard>
-            </Link>
-          </>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Grid container spacing={2} component="main" sx={{ flexGrow: 1 }}>
+        <Grid item xs={false} sm={3}>
+          <Filters serviceCategories={serviceCategories}></Filters>
+        </Grid>
+        <Grid tem xs={12} sm={9}>
+          <Tabs aria-label="Directory view" defaultValue={0} size="lg">
+            <TabList tabFlex={1}>
+              <Tab color="primary">List</Tab>
+              <Tab color="primary">Map</Tab>
+            </TabList>
+            <TabPanel value={0} keepMounted={true}>
+              <Records data={currentRecords.currentData()} />
+              <Stack spacing={2}>
+                <Pagination
+                  color="#fff"
+                  page={currentPage}
+                  setPage={setPage}
+                  total={nPages}
+                  count={Math.ceil(nPages / 4)}
+                />
+              </Stack>
+            </TabPanel>
+            <TabPanel value={1}>
+              <b>Second</b> tab panel
+            </TabPanel>
+          </Tabs>
+        </Grid>
+      </Grid>
+    </>
   );
-}
-
-export default AsyncFetchData;
+};
+export default List;

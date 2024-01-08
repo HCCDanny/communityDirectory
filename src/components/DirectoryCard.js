@@ -3,10 +3,10 @@ import Typography from "@mui/joy/Typography";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
+import OpenInNew from "@mui/icons-material/OpenInNew";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import CardContent from "@mui/joy/CardContent";
 import Sheet from "@mui/joy/Sheet";
-import Grid from "@mui/joy/Grid";
-import Link from "@mui/joy/Link";
 
 export default function DirectoryCard({ props }) {
   return (
@@ -15,17 +15,15 @@ export default function DirectoryCard({ props }) {
       sx={{
         width: "100%",
         flexWrap: "wrap",
+        marginBottom: "2rem",
+        boxShadow: "sm",
         [`& > *`]: {
           "--stack-point": "500px",
           minWidth:
             "clamp(0px, (calc(var(--stack-point) - 2 * var(--Card-padding) - 2 * var(--variant-borderWidth, 0px)) + 1px - 100%) * 999, 100%)",
         },
-        //  resizable
-        overflow: "auto",
-        resize: "horizontal",
       }}
     >
-      {/* <Link to={props.id} underline="none"> */}
       <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
         <img
           src="https://hull-communitydirectory.powerappsportals.com/lwh_logo.png"
@@ -60,8 +58,16 @@ export default function DirectoryCard({ props }) {
             </Typography>
           </div>
         </Sheet>
-        <Box sx={{ display: "flex", gap: 1.5, "& > button": { flex: 1 } }}>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1.5,
+            marginBottom: "1rem",
+            "& > button": { flex: 1 },
+          }}
+        >
           <Button
+            disabled={!props.phone}
             variant="soft"
             color="primary"
             component="a"
@@ -71,6 +77,7 @@ export default function DirectoryCard({ props }) {
             Call
           </Button>
           <Button
+            disabled={!props.email}
             variant="soft"
             color="primary"
             component="a"
@@ -80,17 +87,32 @@ export default function DirectoryCard({ props }) {
             Email
           </Button>
           <Button
+            disabled={!props.web}
+            startDecorator={<OpenInNew />}
+            target="_blank"
             variant="soft"
             color="primary"
             component="a"
-            href={props.website}
+            href={props.web}
             fullWidth={true}
+            aria-label="Open in new tab"
           >
             Website
           </Button>
         </Box>
+        <Box sx={{ display: "flex" }}>
+          <Button
+            size="lg"
+            color="primary"
+            component="a"
+            href={props.id}
+            fullWidth={true}
+            endDecorator={<KeyboardArrowRight />}
+          >
+            Find out more
+          </Button>
+        </Box>
       </CardContent>
-      {/* </Link> */}
     </Card>
   );
 }

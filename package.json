@@ -1,17 +1,25 @@
 {
-  "name": "list-detail-react-app-template",
-  "version": "1.0.0",
+  "name": "Community Directory",
+  "version": "0.0.1",
   "description": "",
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
     "react": "latest",
     "react-dom": "latest",
-    "react-scripts": "3.4.0"
     "react-router-dom": "5.0.1",
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
-    "@mui/joy": "5.0.0-beta.21"
+    "@mui/joy": "5.0.0-beta.21",
+    "axios": "1.6.5",
+    "@mui/material": "5.15.3",
+    "@mui/icons-material": "5.15.3",
+    "@resourge/react-fetch": "1.24.0",
+    "react-mui-pagination": "1.1.0",
+    "@material-ui/core": "4.12.4",
+    "@material-ui/icons": "4.11.3",
+    "rescript-material-ui-lab": "3.0.2",
+    "@nextui-org/react": "2.2.9"
   },
   "scripts": {
     "start": "react-scripts start",
