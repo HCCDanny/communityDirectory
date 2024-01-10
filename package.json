@@ -5,9 +5,9 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "react": "latest",
+    "react": "18.2.0",
     "react-dom": "latest",
-    "react-router-dom": "5.0.1",
+    "react-router-dom": "5.3.0",
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
     "@mui/joy": "5.0.0-beta.21",
@@ -27,10 +27,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
 }

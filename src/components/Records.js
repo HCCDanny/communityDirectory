@@ -4,8 +4,9 @@ import DirectoryCard from "./DirectoryCard";
 const Records = ({ data }) => {
   return (
     <>
-      {data &&
-        data?.map((item) => <DirectoryCard props={item}></DirectoryCard>)}
+      {data?.map((item) => (
+        <DirectoryCard props={item}></DirectoryCard>
+      ))}
     </>
   );
 };

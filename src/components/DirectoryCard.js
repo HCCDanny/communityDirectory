@@ -11,6 +11,7 @@ import Sheet from "@mui/joy/Sheet";
 export default function DirectoryCard({ props }) {
   return (
     <Card
+      key={props.id}
       orientation="horizontal"
       sx={{
         width: "100%",

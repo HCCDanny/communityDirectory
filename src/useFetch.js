@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { Context } from "./Provider";
 
 const useFetch = (url) => {
-  const [data, setData] = useState(null);
+  const { data, setData } = useContext(Context);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -10,7 +11,6 @@ const useFetch = (url) => {
     const dataFetching = async () => {
       try {
         const response = await axios.get(url); // wait until the promise resolves
-
         setData(response.data);
         setError(null);
       } catch (err) {
@@ -22,10 +22,11 @@ const useFetch = (url) => {
     };
 
     dataFetching();
-  }, [url]);
+  }, []);
 
   return {
     data,
+    setData,
     loading,
     error,
   };
