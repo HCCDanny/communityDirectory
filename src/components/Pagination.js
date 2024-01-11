@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-
+import { useSearchParams } from "react-router-dom";
 function usePagination(data, itemsPerPage) {
   const [currentPage, setCurrentPage] = useState(1);
+  // const [page, setCurrentPage] = useSearchParams({ p: 1 });
+  // const currentPage = page.get("p");
   const maxPage = Math.ceil(data?.length / itemsPerPage);
 
   function currentData() {
@@ -21,9 +23,10 @@ function usePagination(data, itemsPerPage) {
   function jump(page) {
     const pageNumber = Math.max(1, page);
     setCurrentPage((currentPage) => Math.min(pageNumber, maxPage));
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }
 
-  return { next, prev, jump, currentData, currentPage, maxPage };
+  return { next, prev, jump, currentData, currentPage, setCurrentPage };
 }
 
 export default usePagination;

@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 // import { DirectoryContext } from "./DirectoryContext";
 import { Context } from "./Provider";
 import useFetch from "./useFetch";
@@ -16,13 +17,17 @@ import TabPanel from "@mui/joy/TabPanel";
 import Pagination from "react-mui-pagination";
 import Stack from "@mui/material/Stack";
 
-const List = () => {
+function List() {
   const { data, setData, loading, error } = useFetch(
     "https://raw.githubusercontent.com/HCCDanny/communityDirectory/main/public/data.json"
   );
   const { filterData } = useContext(Context);
   const [currentPage, setCurrentPage] = useState(1);
+  // const [page, setCurrentPage] = useSearchParams({ p: 1, test: "" });
+  // const currentPage = page.get("p");
   const recordsPerPage = 10;
+  const [params, setParams] = useSearchParams({ view: "" });
+  const view = params.get("view");
   const currentRecords = usePagination(
     filterData?.length && !loading
       ? filterData
@@ -37,7 +42,6 @@ const List = () => {
   const setPage = (e, p) => {
     setCurrentPage(p);
     currentRecords.jump(p);
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
 
   if (loading) return <LoadingSkeleton></LoadingSkeleton>;
@@ -64,7 +68,7 @@ const List = () => {
             <TabPanel value={0}>
               <Records data={currentRecords.currentData()} />
 
-              <Stack spacing={2}>
+              <Stack alignItems="center">
                 <Pagination
                   page={currentPage}
                   setPage={setPage}
@@ -81,5 +85,5 @@ const List = () => {
       </Grid>
     </>
   );
-};
+}
 export default List;
