@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Context } from "../Provider";
 function usePagination(data, itemsPerPage) {
-  const [currentPage, setCurrentPage] = useState(1);
+  const { currentPage, setCurrentPage } = useContext(Context);
   // const [page, setCurrentPage] = useSearchParams({ p: 1 });
   // const currentPage = page.get("p");
   const maxPage = Math.ceil(data?.length / itemsPerPage);

@@ -6,3 +6,6 @@
   position: sticky;
   top: 10px;
 }
+.leaflet-control-container {
+  height: 100vh;
+}

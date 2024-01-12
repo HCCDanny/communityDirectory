@@ -7,6 +7,7 @@ import OpenInNew from "@mui/icons-material/OpenInNew";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import CardContent from "@mui/joy/CardContent";
 import Sheet from "@mui/joy/Sheet";
+import DefaultCardImage from "/public/assets/lwh_logo_no_text.png";
 
 export default function DirectoryCard({ props }) {
   return (
@@ -14,7 +15,6 @@ export default function DirectoryCard({ props }) {
       key={props.id}
       orientation="horizontal"
       sx={{
-        width: "100%",
         flexWrap: "wrap",
         marginBottom: "2rem",
         boxShadow: "sm",
@@ -27,8 +27,8 @@ export default function DirectoryCard({ props }) {
     >
       <AspectRatio flex ratio="1" maxHeight={182} sx={{ minWidth: 182 }}>
         <img
-          src="https://hull-communitydirectory.powerappsportals.com/lwh_logo.png"
-          srcSet="https://hull-communitydirectory.powerappsportals.com/lwh_logo.png"
+          src={DefaultCardImage}
+          srcSet={DefaultCardImage}
           loading="lazy"
           alt=""
         />

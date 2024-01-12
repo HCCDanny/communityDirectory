@@ -5,7 +5,6 @@ import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import Radio from "@mui/joy/Radio";
 import RadioGroup from "@mui/joy/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 
@@ -21,6 +20,7 @@ const Filters = () => {
 
   // Grab the data from the data provider
   const { data, setFilter } = useContext(Context);
+  const { currentPage, setCurrentPage } = useContext(Context);
 
   // Set the filters
   const serviceCategories = [...new Set(data?.map((s) => s.service))];
@@ -38,7 +38,7 @@ const Filters = () => {
     //   pathname: location.pathname,
     //   search: "",
     // });
-    if (event.target.value != "all")
+    if (event.target.value != "All")
       filteredData = data.filter((item) => item.service === event.target.value);
     // history.replace({
     //   pathname: location.pathname,
@@ -47,23 +47,24 @@ const Filters = () => {
     filterParams.set("service", event.target.value);
     setFilterParams(filterParams);
     setFilter(filteredData);
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    setCurrentPage(1);
+    window.scrollTo({ top: 100, left: 0, behavior: "smooth" });
   };
 
   return (
     <>
       <aside id="filters">
-        <FormControl>
+        <FormControl sx={{ width: "100%" }}>
           <FormLabel id="filter-by-service">Filter by service</FormLabel>
           <RadioGroup
             aria-label="filter-by-service"
             name="service"
             value={service}
+            defaultValue={"All"}
             onChange={handleServiceChange}
           >
             <List
               sx={{
-                minWidth: 240,
                 "--List-gap": "0.5rem",
                 "--ListItem-paddingY": "1rem",
                 "--ListItem-radius": "8px",
@@ -76,7 +77,10 @@ const Filters = () => {
                     overlay
                     value={item}
                     label={item}
-                    sx={{ flexGrow: 1, flexDirection: "row-reverse" }}
+                    sx={{
+                      flexGrow: 1,
+                      flexDirection: "row-reverse",
+                    }}
                     slotProps={{
                       action: ({ checked }) => ({
                         sx: (theme) => ({

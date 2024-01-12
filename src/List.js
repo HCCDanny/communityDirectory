@@ -8,6 +8,7 @@ import MapIcon from "./icons/MapIcon";
 import ListIcon from "./icons/ListIcon";
 import Records from "./components/Records";
 import Filters from "./components/Filters";
+import Search from "./components/Serarch";
 import usePagination from "./components/Pagination";
 import Grid from "@mui/joy/Grid";
 import Tabs from "@mui/joy/Tabs";
@@ -16,18 +17,25 @@ import Tab from "@mui/joy/Tab";
 import TabPanel from "@mui/joy/TabPanel";
 import Pagination from "react-mui-pagination";
 import Stack from "@mui/material/Stack";
+import MapView from "./MapView";
 
 function List() {
   const { data, setData, loading, error } = useFetch(
     "https://raw.githubusercontent.com/HCCDanny/communityDirectory/main/public/data.json"
   );
   const { filterData } = useContext(Context);
-  const [currentPage, setCurrentPage] = useState(1);
+  const { currentPage, setCurrentPage } = useContext(Context);
   // const [page, setCurrentPage] = useSearchParams({ p: 1, test: "" });
   // const currentPage = page.get("p");
   const recordsPerPage = 10;
   const [params, setParams] = useSearchParams({ view: "" });
   const view = params.get("view");
+  const mapData =
+    filterData?.length && !loading
+      ? filterData
+      : data || (filterData?.length && currentPage >= 1)
+      ? data
+      : "";
   const currentRecords = usePagination(
     filterData?.length && !loading
       ? filterData
@@ -49,8 +57,9 @@ function List() {
 
   return (
     <>
+      <Search></Search>
       <Grid container spacing={2} component="main" sx={{ flexGrow: 1 }}>
-        <Grid item xs={false} sm={3}>
+        <Grid item xs={12} sm={3}>
           <Filters data={data}></Filters>
         </Grid>
         <Grid tem xs={12} sm={9}>
@@ -78,7 +87,7 @@ function List() {
               </Stack>
             </TabPanel>
             <TabPanel value={1}>
-              <b>Second</b> tab panel
+              <MapView data={mapData}></MapView>
             </TabPanel>
           </Tabs>
         </Grid>
