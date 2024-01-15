@@ -19,7 +19,7 @@
     "leaflet": "1.9.4",
     "react-leaflet": "4.2.1",
     "react-leaflet-cluster": "2.1.0",
-    "materialui-pagination-component": "1.1.12"
+    "react-scripts": "5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
