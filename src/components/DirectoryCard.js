@@ -8,7 +8,7 @@ import OpenInNew from "@mui/icons-material/OpenInNew";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import CardContent from "@mui/joy/CardContent";
 import Sheet from "@mui/joy/Sheet";
-import DefaultCardImage from "/public/assets/lwh_logo_no_text.png";
+import DefaultCardImage from "../icons/lwh_logo_no_text.png";
 
 export default function DirectoryCard({ data }) {
   const renderCategoryColour = (param) => {
