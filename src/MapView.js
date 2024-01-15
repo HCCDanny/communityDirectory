@@ -6,7 +6,7 @@ import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
 import Typography from "@mui/joy/Typography";
 // import icon from "/public/assets/mapMarker.png";
-import CustomIcon from "/public/assets/mapMarker.png";
+import CustomIcon from "./icons/mapMarker.png";
 // import MapMarker from "./icons/MapMarker";
 
 const position = [53.75, -0.34];
