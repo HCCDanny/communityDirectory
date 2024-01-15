@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 // import { DirectoryContext } from "./DirectoryContext";
 import { Context } from "./Provider";
@@ -6,16 +6,18 @@ import useFetch from "./useFetch";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 import MapIcon from "./icons/MapIcon";
 import ListIcon from "./icons/ListIcon";
-import Records from "./components/Records";
+import DirectoryCard from "./components/DirectoryCard";
 import Filters from "./components/Filters";
 import Search from "./components/Serarch";
+import DirectoryPagination from "./components/DirectoryPagination";
 import usePagination from "./components/Pagination";
 import Grid from "@mui/joy/Grid";
 import Tabs from "@mui/joy/Tabs";
 import TabList from "@mui/joy/TabList";
 import Tab from "@mui/joy/Tab";
 import TabPanel from "@mui/joy/TabPanel";
-import Pagination from "react-mui-pagination";
+// import Pagination from "materialui-pagination-component";
+// import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import MapView from "./MapView";
 
@@ -28,8 +30,8 @@ function List() {
   // const [page, setCurrentPage] = useSearchParams({ p: 1, test: "" });
   // const currentPage = page.get("p");
   const recordsPerPage = 10;
-  const [params, setParams] = useSearchParams({ view: "" });
-  const view = params.get("view");
+  // const [params, setParams] = useSearchParams({ view: "" });
+  // const view = params.get("view");
   const mapData =
     filterData?.length && !loading
       ? filterData
@@ -47,12 +49,11 @@ function List() {
   const nPages =
     filterData?.length && !loading ? filterData?.length : data?.length;
 
-  const setPage = (e, p) => {
-    setCurrentPage(p);
-    currentRecords.jump(p);
-  };
-
-  if (loading) return <LoadingSkeleton></LoadingSkeleton>;
+  if (loading) return;
+  (<LoadingSkeleton></LoadingSkeleton>),
+    (<LoadingSkeleton></LoadingSkeleton>),
+    (<LoadingSkeleton></LoadingSkeleton>),
+    (<LoadingSkeleton></LoadingSkeleton>);
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -75,14 +76,11 @@ function List() {
               </Tab>
             </TabList>
             <TabPanel value={0}>
-              <Records data={currentRecords.currentData()} />
-
+              <DirectoryCard data={currentRecords.currentData()} />
               <Stack alignItems="center">
-                <Pagination
-                  page={currentPage}
-                  setPage={setPage}
-                  total={nPages}
-                  count={Math.ceil(nPages / 4)}
+                <DirectoryPagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(nPages / recordsPerPage)}
                 />
               </Stack>
             </TabPanel>

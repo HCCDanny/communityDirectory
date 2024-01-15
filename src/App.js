@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { ThemeProvider, createMuiTheme, makeStyles } from "@mui/styles";
 import { CssVarsProvider } from "@mui/joy/styles";
 import Provider from "./Provider";
 import Container from "@mui/material/Container";
@@ -15,8 +16,7 @@ export default function App() {
           <Container maxWidth="lg">
             <Routes>
               <Route path="/" element={<List />} />
-              {/* <Route path="/:id" component={Detail} exact /> */}
-              {/* <Redirect to="/" /> */}
+              <Route path="/:id" element={<Detail />} />
             </Routes>
           </Container>
         </Provider>

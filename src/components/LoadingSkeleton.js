@@ -5,13 +5,13 @@ import AspectRatio from "@mui/joy/AspectRatio";
 
 export default function DirectoryCard({ props }) {
   return (
-    <Card variant="outlined" sx={{ width: 343, display: "flex", gap: 2 }}>
-      <AspectRatio ratio="21/9">
+    <Card
+      variant="outlined"
+      sx={{ width: "100%", display: "flex", gap: 2, marginBottom: "2rem" }}
+    >
+      <AspectRatio>
         <Skeleton variant="overlay">
-          <img
-            alt=""
-            src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-          />
+          <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" />
         </Skeleton>
       </AspectRatio>
       <Typography>

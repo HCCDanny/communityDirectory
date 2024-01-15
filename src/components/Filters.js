@@ -7,6 +7,12 @@ import Radio from "@mui/joy/Radio";
 import RadioGroup from "@mui/joy/RadioGroup";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
+import FormHelperText from "@mui/joy/FormHelperText";
+import Checkbox from "@mui/joy/Checkbox";
+import Done from "@mui/icons-material/Done";
+import Select from "@mui/joy/Select";
+import Option from "@mui/joy/Option";
+import { Box, Chip } from "@mui/joy";
 
 const Filters = () => {
   // Set up react-router hooks
@@ -24,11 +30,15 @@ const Filters = () => {
 
   // Set the filters
   const serviceCategories = [...new Set(data?.map((s) => s.service))];
+  const accommodationTags = [...new Set(data?.map((d) => d.tags_accom))];
+
   serviceCategories.unshift("All");
   const [serviceFilters] = useState(serviceCategories);
   let filteredData = data;
 
-  filteredData = data.filter((item) => item.service === service);
+  filteredData = data?.filter((item) => item.service === service);
+
+  const [value, setValue] = React.useState([]);
 
   // Set the filter data on change
   const handleServiceChange = (event) => {
@@ -39,7 +49,9 @@ const Filters = () => {
     //   search: "",
     // });
     if (event.target.value != "All")
-      filteredData = data.filter((item) => item.service === event.target.value);
+      filteredData = data?.filter(
+        (item) => item.service === event.target.value
+      );
     // history.replace({
     //   pathname: location.pathname,
     //   search: params.toString().toLowerCase(),
@@ -73,6 +85,14 @@ const Filters = () => {
             >
               {serviceFilters?.map((item, index) => (
                 <ListItem variant="outlined" key={index}>
+                  <FormHelperText
+                    sx={{
+                      color: "text.secondary",
+                      fontSize: 10,
+                    }}
+                  >
+                    {item.length}
+                  </FormHelperText>
                   <Radio
                     overlay
                     value={item}
@@ -97,6 +117,38 @@ const Filters = () => {
               ))}
             </List>
           </RadioGroup>
+          <FormLabel id="filter-by-housing-and-accommodation">
+            Housing and accommodation
+          </FormLabel>
+          <Select
+            multiple
+            color="primary"
+            size="lg"
+            placeholder="Filter by type..."
+            renderValue={(selected) => (
+              <Box sx={{ display: "flex", gap: "0.25rem" }}>
+                {selected.map((selectedOption) => (
+                  <Chip variant="soft" color="primary">
+                    {selectedOption.label}
+                  </Chip>
+                ))}
+              </Box>
+            )}
+            sx={{
+              minWidth: "15rem",
+            }}
+            slotProps={{
+              listbox: {
+                sx: {
+                  width: "100%",
+                },
+              },
+            }}
+          >
+            {accommodationTags.map((item, index) => (
+              <Option value={item}>{item}</Option>
+            ))}
+          </Select>
         </FormControl>
       </aside>
     </>
