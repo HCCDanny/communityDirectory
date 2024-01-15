@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ThemeProvider, createMuiTheme, makeStyles } from "@mui/styles";
 import { CssVarsProvider } from "@mui/joy/styles";
 import Provider from "./Provider";
 import Container from "@mui/material/Container";
