@@ -16,10 +16,10 @@ import {
   Drawer,
   Grid,
 } from "@mui/joy";
-import ActivitiesFilter from "./Filters/ActivitiesFilter";
-import AreaFilter from "./Filters/AreaFilter";
-import SupportForFilter from "./Filters/SupportForFilter";
-import AdaptationFilter from "./Filters/AdaptationFilter";
+import ActivitiesFilter from "./filters/ActivitiesFilter";
+import AreaFilter from "./filters/AreaFilter";
+import SupportForFilter from "./filters/SupportForFilter";
+import AdaptationFilter from "./filters/AdaptationFilter";
 import { Stack } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import renderCategoryColour from "../functions/categoryColours";
