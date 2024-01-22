@@ -5,11 +5,11 @@ import { Select, Option, Box, Chip, FormLabel } from "@mui/joy";
 
 export default function ActivitiesFilter(activity) {
   const activities = tagFilter(activity.data, "tags_activities");
-  [filterParams, setFilterParams] = useSearchParams();
+  [activityFilterParams, setActivityFilterParams] = useSearchParams();
 
   const handleChange = (event, obj) => {
     console.log(JSON.stringify(obj));
-    setFilterParams("activities", JSON.stringify(obj));
+    setActivityFilterParams("activities", JSON.stringify(obj));
   };
 
   // JSON.parse(filterParams.get("activities"))?.join(",");
