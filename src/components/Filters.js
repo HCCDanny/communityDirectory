@@ -1,61 +1,92 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Context } from "../Provider";
-import List from "@mui/joy/List";
-import ListItem from "@mui/joy/ListItem";
-import Radio from "@mui/joy/Radio";
-import RadioGroup from "@mui/joy/RadioGroup";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/joy/FormLabel";
-import FormHelperText from "@mui/joy/FormHelperText";
-import Checkbox from "@mui/joy/Checkbox";
-import Done from "@mui/icons-material/Done";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import { Box, Chip } from "@mui/joy";
+import {
+  Typography,
+  List,
+  ListItem,
+  Radio,
+  RadioGroup,
+  FormLabel,
+  Box,
+  Chip,
+  Button,
+  Divider,
+  Drawer,
+  Grid,
+} from "@mui/joy";
+import ActivitiesFilter from "./Filters/ActivitiesFilter";
+import AreaFilter from "./Filters/AreaFilter";
+import SupportForFilter from "./Filters/SupportForFilter";
+import AdaptationFilter from "./Filters/AdaptationFilter";
+import { Stack } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import renderCategoryColour from "../functions/categoryColours";
 
-const Filters = () => {
-  // Set up react-router hooks
-  // const history = useHistory();
-  // const location = useLocation();
-  // let params = new URLSearchParams(location.search);
-  // let serviceParams = params.get("service");
-
+const Filters = (props) => {
   let [filterParams, setFilterParams] = useSearchParams({ service: "" });
   const service = filterParams.get("service");
 
   // Grab the data from the data provider
   const { data, setFilter } = useContext(Context);
   const { currentPage, setCurrentPage } = useContext(Context);
+  const { filterData } = useContext(Context);
 
-  // Set the filters
   const serviceCategories = [...new Set(data?.map((s) => s.service))];
-  const accommodationTags = [...new Set(data?.map((d) => d.tags_accom))];
-
   serviceCategories.unshift("All");
-  const [serviceFilters] = useState(serviceCategories);
+
+  // Tags
+  const areaTags = [
+    ...new Set(data?.map((d) => d.tags_area.replace(/,/g, ""))),
+  ];
+  const carersTags = [
+    ...new Set(data?.map((d) => d.tags_carers.replace(/,/g, ""))),
+  ];
+  const homerepTags = [
+    ...new Set(data?.map((d) => d.tags_homerep.replace(/,/g, ""))),
+  ];
+  const accommodationTags = [
+    ...new Set(data?.map((d) => d.tags_accom.replace(/,/g, ""))),
+  ];
+  const supportforag = [
+    ...new Set(data?.map((d) => d.tags_supportforag.replace(/,/g, ""))),
+  ];
+  const supportforhhTags = [
+    ...new Set(data?.map((d) => d.tags_supportforhh.replace(/,/g, ""))),
+  ];
+
   let filteredData = data;
 
-  filteredData = data?.filter((item) => item.service === service);
+  const categories = [];
+  serviceCategories.forEach((category) => {
+    if (category != "All") {
+      const val = data.filter((item) => item.service === category);
+      categories.push({ count: val.length, category });
+    } else {
+      categories.push({ count: data.length, category });
+    }
+  });
 
-  const [value, setValue] = React.useState([]);
+  useEffect(() => {
+    if (filterParams.get("service")) {
+      filteredData = data?.filter(
+        (item) => item.service === filterParams.get("service")
+      );
+    }
+  });
+
+  const [serviceFilters] = useState(serviceCategories);
 
   // Set the filter data on change
   const handleServiceChange = (event) => {
-    // const { name, value } = event?.target;
-    // const params = new URLSearchParams({ [name]: value });
-    // history.replace({
-    //   pathname: location.pathname,
-    //   search: "",
-    // });
+    console.log(event.target.value);
+    let filteredData = data;
     if (event.target.value != "All")
       filteredData = data?.filter(
         (item) => item.service === event.target.value
       );
-    // history.replace({
-    //   pathname: location.pathname,
-    //   search: params.toString().toLowerCase(),
-    // });
+
     filterParams.set("service", event.target.value);
     setFilterParams(filterParams);
     setFilter(filteredData);
@@ -63,93 +94,124 @@ const Filters = () => {
     window.scrollTo({ top: 100, left: 0, behavior: "smooth" });
   };
 
+  // Toggle the additional filters
+
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <aside id="filters">
-        <FormControl sx={{ width: "100%" }}>
-          <FormLabel id="filter-by-service">Filter by service</FormLabel>
-          <RadioGroup
-            aria-label="filter-by-service"
-            name="service"
-            value={service}
-            defaultValue={"All"}
-            onChange={handleServiceChange}
-          >
-            <List
-              sx={{
-                "--List-gap": "0.5rem",
-                "--ListItem-paddingY": "1rem",
-                "--ListItem-radius": "8px",
-                "--ListItemDecorator-size": "32px",
-              }}
+        <Stack
+          direction="column"
+          justifyContent="center"
+          alignItems="stretch"
+          spacing={5}
+        >
+          <FormControl sx={{ width: "100%" }}>
+            <FormLabel id="filter-by-service">Filter by service</FormLabel>
+            <RadioGroup
+              aria-label="filter-by-service"
+              name="service"
+              value={service}
+              defaultValue={"All"}
+              onChange={handleServiceChange}
             >
-              {serviceFilters?.map((item, index) => (
-                <ListItem variant="outlined" key={index}>
-                  <FormHelperText
-                    sx={{
-                      color: "text.secondary",
-                      fontSize: 10,
-                    }}
+              <List
+                sx={{
+                  "--List-gap": "0.5rem",
+                  "--ListItem-paddingY": "1rem",
+                  "--ListItem-radius": "8px",
+                  "--ListItemDecorator-size": "32px",
+                }}
+              >
+                {categories?.map((item, index) => (
+                  // console.log(props),
+                  <ListItem
+                    variant="outlined"
+                    key={index}
+                    sx={{ background: "#fff" }}
                   >
-                    {item.length}
-                  </FormHelperText>
-                  <Radio
-                    overlay
-                    value={item}
-                    label={item}
-                    sx={{
-                      flexGrow: 1,
-                      flexDirection: "row-reverse",
-                    }}
-                    slotProps={{
-                      action: ({ checked }) => ({
-                        sx: (theme) => ({
-                          ...(checked && {
-                            inset: -1,
-                            border: "2px solid",
-                            borderColor: theme.vars.palette.primary[500],
+                    <Chip>{item.count}</Chip>
+                    <Radio
+                      overlay
+                      value={item.category}
+                      label={item.category}
+                      sx={{
+                        flexGrow: 1,
+                        flexDirection: "row-reverse",
+                        background: "#fff",
+                      }}
+                      slotProps={{
+                        action: ({ checked }) => ({
+                          sx: () => ({
+                            ...(checked && {
+                              inset: -1,
+                              border: "2px solid",
+                              borderColor:
+                                "var(--joy-palette-" +
+                                renderCategoryColour(item.category) +
+                                "-500)",
+                            }),
                           }),
                         }),
-                      }),
-                    }}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </RadioGroup>
-          <FormLabel id="filter-by-housing-and-accommodation">
-            Housing and accommodation
-          </FormLabel>
-          <Select
-            multiple
-            color="primary"
-            size="lg"
-            placeholder="Filter by type..."
-            renderValue={(selected) => (
-              <Box sx={{ display: "flex", gap: "0.25rem" }}>
-                {selected.map((selectedOption) => (
-                  <Chip variant="soft" color="primary">
-                    {selectedOption.label}
-                  </Chip>
+                      }}
+                    />
+                  </ListItem>
                 ))}
+              </List>
+            </RadioGroup>
+            <Stack spacing={3}>
+              <Divider />
+              <Button
+                variant="outlined"
+                color="primary"
+                sx={{
+                  background: "#fff",
+                  p: 2,
+                  display:
+                    service === "All" || service === "" ? "none" : "flex",
+                }}
+                size="lg"
+                onClick={() => setOpen(true)}
+                startDecorator={<FilterListIcon />}
+              >
+                Filters
+              </Button>
+            </Stack>
+            <Drawer
+              open={open}
+              onClose={() => setOpen(false)}
+              anchor="bottom"
+              size="lg"
+            >
+              <Box role="presentation" sx={{ p: 2, maxWidth: "600px" }}>
+                <Typography level="h2">Filters</Typography>
+                <Grid container>
+                  <Grid xs={12}>
+                    <FormControl sx={{ width: "100%" }}>
+                      <ActivitiesFilter
+                        data={filterData}
+                        onChange={handleServiceChange}
+                      ></ActivitiesFilter>
+                      <AreaFilter data={filterData}></AreaFilter>
+                      <SupportForFilter data={filterData}></SupportForFilter>
+                      <AdaptationFilter data={filterData}></AdaptationFilter>
+                    </FormControl>
+                  </Grid>
+                  <Grid xs={12}></Grid>
+                  <Button
+                    sx={{ width: "100%", marginTop: "2rem", p: 2 }}
+                    variant="solid"
+                    color="primary"
+                    onClick={() => setOpen(false)}
+                  >
+                    Apply filters
+                  </Button>
+                </Grid>
               </Box>
-            )}
-            sx={{
-              minWidth: "15rem",
-            }}
-            slotProps={{
-              listbox: {
-                sx: {
-                  width: "100%",
-                },
-              },
-            }}
-          >
-            {accommodationTags.map((item, index) => (
-              <Option value={item}>{item}</Option>
-            ))}
-          </Select>
-        </FormControl>
+            </Drawer>
+          </FormControl>
+        </Stack>
       </aside>
     </>
   );

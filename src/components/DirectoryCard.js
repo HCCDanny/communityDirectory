@@ -8,23 +8,10 @@ import OpenInNew from "@mui/icons-material/OpenInNew";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import CardContent from "@mui/joy/CardContent";
 import Sheet from "@mui/joy/Sheet";
+import renderCategoryColour from "../functions/categoryColours";
 import DefaultCardImage from "../icons/lwh_logo_no_text.png";
 
 export default function DirectoryCard({ data }) {
-  const renderCategoryColour = (param) => {
-    switch (param) {
-      case "Carers":
-        return "primary";
-      case "Activities and Groups":
-        return "neutral";
-      case "Supported Accomodation":
-        return "danger";
-      case "Help At Home":
-        return "success";
-      default:
-        return "primary";
-    }
-  };
   return (
     <>
       {data?.map((item) => (
@@ -54,7 +41,9 @@ export default function DirectoryCard({ data }) {
             <Typography fontSize="xl" fontWeight="lg">
               {item.organisation}
             </Typography>
-            <Chip color={"primary"}>{item.service}</Chip>
+            <Chip color={renderCategoryColour(item["service"])}>
+              {item.service}
+            </Chip>
             <Sheet
               sx={{
                 bgcolor: "background.level1",

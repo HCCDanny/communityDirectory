@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 // import { DirectoryContext } from "./DirectoryContext";
 import { Context } from "./Provider";
@@ -59,11 +59,18 @@ function List() {
   return (
     <>
       <Search></Search>
-      <Grid container spacing={2} component="main" sx={{ flexGrow: 1 }}>
-        <Grid item xs={12} sm={3}>
+      <Grid
+        container
+        spacing={2}
+        component="main"
+        sx={{
+          flexGrow: 1,
+        }}
+      >
+        <Grid item xs={12} sm={4}>
           <Filters data={data}></Filters>
         </Grid>
-        <Grid tem xs={12} sm={9}>
+        <Grid tem xs={12} sm={8}>
           <Tabs aria-label="Directory view" defaultValue={0} size="lg">
             <TabList tabFlex={1}>
               <Tab color="primary">
@@ -75,7 +82,7 @@ function List() {
                 Map
               </Tab>
             </TabList>
-            <TabPanel value={0}>
+            <TabPanel value={0} color={"danger"}>
               <DirectoryCard data={currentRecords.currentData()} />
               <Stack alignItems="center">
                 <DirectoryPagination
