@@ -5,12 +5,12 @@ import { Select, Option, Box, Chip, FormLabel } from "@mui/joy";
 
 export default function ActivitiesFilter(activity) {
   const activities = tagFilter(activity.data, "tags_activities");
-  [activityFilterParams, setActivityFilterParams] = useSearchParams();
+  // [activityFilterParams, setActivityFilterParams] = useSearchParams();
 
-  const handleChange = (event, obj) => {
-    console.log(JSON.stringify(obj));
-    setActivityFilterParams("activities", JSON.stringify(obj));
-  };
+  // const handleChange = (event, obj) => {
+  //   console.log(JSON.stringify(obj));
+  //   setActivityFilterParams("activities", JSON.stringify(obj));
+  // };
 
   // JSON.parse(filterParams.get("activities"))?.join(",");
   if (activities.length) {
@@ -27,7 +27,7 @@ export default function ActivitiesFilter(activity) {
             multiple
             size="lg"
             placeholder="Filter by activity or service..."
-            onChange={handleChange}
+            // onChange={handleChange}
             renderValue={(selected) => (
               <Box sx={{ display: "flex", gap: "0.25rem" }}>
                 {selected.map((selectedOption) => (
